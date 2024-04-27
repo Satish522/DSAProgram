@@ -2,11 +2,13 @@ package org.satish.array.sorting;
 
 import java.util.Random;
 
+import org.satish.array.util.DSAUtil;
+
 public class SelectionSort {
 
 	public static void main(String[] args) {
 		//int arr[] = {5,3,9,2,6,3,7};
-		int arr[] = generateRandomeArray(10);
+		int arr[] = DSAUtil.generateRandomeArray(30);
 		int size = arr.length;
 		int steps = 0;
 		System.out.println("Before Sorting...");
@@ -43,12 +45,4 @@ public class SelectionSort {
 
 	}
 	
-	private static int[] generateRandomeArray(int size) {
-		int arr[] = new int[size];
-		for(int i=0; i<size-1;i++) {
-			arr[i] = new Random().nextInt(10);
-		}
-		return arr;
-	}
-
 }
