@@ -43,14 +43,35 @@ public class LinkedList<T> {
 	public void insertAtIndex(int index, T data) {
 		Node node = new Node();
 		node.data = data;
+		if(index == 0) {
+			addFirst(data);
+		} else {
+			Node n = head;
+			for(int i = 0; i < index-1;i++ )
+				n = n.next;
+			
+			node.next = n.next;
+			n.next = node;
+		}
 		
-		Node n = head;
-		for(int i = 0; i < index-1;i++ )
-			n = n.next;
-		
-		node.next = n.next;
-		n.next = node;
 
+	}
+	
+	public void deleteAt(int index) {
+		
+		if(index == 0) {
+			head = head.next;
+		} else {
+			
+			Node n = head;
+			for(int i = 0; i < index-1;i++ )
+				n = n.next;
+			Node n1 = n.next;
+			
+			n.next = n1.next;
+		
+		}
+		
 	}
 	
 	
