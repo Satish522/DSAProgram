@@ -1,10 +1,10 @@
 package org.satish.dsa;
 
-public class LinkedList {
+public class LinkedList<T> {
 	
 	Node head;
 	
-	public void add(int data) {
+	public void add(T data) {
 		Node node = new Node();
 		node.data = data;
 		node.next = null;
@@ -31,4 +31,27 @@ public class LinkedList {
 		}
 		System.out.print(node.data+" ");
 	}
+	
+	public void addFirst(T data) {
+		Node node = new Node();
+		node.data = data;
+		node.next = head;
+		
+		head = node;
+	}
+	
+	public void insertAtIndex(int index, T data) {
+		Node node = new Node();
+		node.data = data;
+		
+		Node n = head;
+		for(int i = 0; i < index-1;i++ )
+			n = n.next;
+		
+		node.next = n.next;
+		n.next = node;
+
+	}
+	
+	
 }

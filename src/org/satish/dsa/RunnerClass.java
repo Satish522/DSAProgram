@@ -3,13 +3,20 @@ package org.satish.dsa;
 public class RunnerClass {
 
 	public static void main(String[] args) {
-		LinkedList list = new LinkedList();
-		list.add(65);
-		list.add(3);
-		list.add(6);
-		list.add(33);
+		LinkedList<String> list = new LinkedList<String>();
+		list.add("Satish");
+		list.add("Kumar");
+		list.add("Subudhi");
+		list.addFirst("Rajvika");
+		list.addFirst("Swapna");
+		list.insertAtIndex(2, "Rajsi");
+		list.insertAtIndex(3, "S");
+		list.insertAtIndex(1, "Senapati");
 		list.show();
-		System.out.println(list.head.data+"  "+list.head.next.next.next.data);
+		
+		java.util.LinkedList<String> ll = new java.util.LinkedList<>();
+		
 	}
 
 }
+ 

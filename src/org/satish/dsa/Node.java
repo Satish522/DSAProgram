@@ -1,6 +1,6 @@
 package org.satish.dsa;
 
-public class Node {
-	int data;
+public class Node<T> {
+	T data;
 	Node next;
 }
