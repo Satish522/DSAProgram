@@ -12,7 +12,7 @@ public class RunnerClass {
 		list.insertAtIndex(2, "Rajsi");
 		list.insertAtIndex(3, "S");
 		list.insertAtIndex(1, "Senapati");
-		list.deleteAt(0);
+		list.deleteAt(6);
 		list.show();
 		
 		java.util.LinkedList<String> ll = new java.util.LinkedList<>();
