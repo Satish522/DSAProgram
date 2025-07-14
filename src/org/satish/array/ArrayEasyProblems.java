@@ -2,9 +2,12 @@ package org.satish.array;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.Vector;
 
 import org.satish.array.util.DSAUtil;
 
@@ -22,7 +25,285 @@ public class ArrayEasyProblems {
 		leftRotateByDPlace(arr, 4);
 		rightRotateByDPlace(arr, 5); // Finish by your self both approach ??
 		moveZeroToEndOfArray(arr);
+		unionSortedArray(DSAUtil.generateRandomeSortedArray(19), DSAUtil.generateRandomeSortedArray(36));
+		intersectionSortedArray(DSAUtil.generateRandomeSortedArray(19), DSAUtil.generateRandomeSortedArray(20));
+		findMissingNumber(DSAUtil.generateRandomeSortedArray(5));
+		findMaximumConsecutive1();
+		findNumberAppearOnce();
 		
+	}
+
+	private static void findNumberAppearOnce() {
+		int[] twiceArr = new int[] {1,1,2,2,3,3,4,4,5,6,6,8,8};
+		
+		bruteforceFindNumberAppearOnce(twiceArr);
+		
+		betterApproachFindNumberAppearOnce(twiceArr);
+		
+		optimalApproachFindNumberAppearOnce(twiceArr);
+		
+	}
+
+	private static void optimalApproachFindNumberAppearOnce(int[] twiceArr) {
+		int xor = 0 ;
+		for(int ele : twiceArr) {
+			xor = xor ^ ele;
+		}
+		System.out.println("Optimal solution ==> Single apearance number is "+xor);
+		
+	}
+
+	private static void betterApproachFindNumberAppearOnce(int[] twiceArr) {
+		
+		Map<Integer, Integer> map =  new HashMap<Integer, Integer>();
+		
+		for(int ele : twiceArr) {
+			map.put(ele, map.getOrDefault(ele, 0)+1);
+		}
+		
+		for(Map.Entry<Integer, Integer> entry : map.entrySet()) {
+			if(entry.getValue() == 1)
+				System.out.println("Better approach ==> Single apearance number is "+entry.getKey());
+		}
+		
+		
+	}
+
+	private static void bruteforceFindNumberAppearOnce(int[] arr) {
+		
+		for(int i = 0; i < arr.length; i++) {
+			int counter = 0;
+			for(int j=0; j < arr.length; j++) {
+				if(arr[i] == arr[j])
+					counter++;
+			}
+			
+			if(counter == 1)
+				System.out.println("Single apearance number is "+arr[i]);
+		}
+		
+		
+	}
+
+	private static void findMaximumConsecutive1() {
+		int arr[] = new int[] {1,1, 0,1,1,1,0,1,1,0,1,1,1,1};
+		int counter = 0, max =0;
+		for(int i = 0; i< arr.length; i++) {
+			if(arr[i] == 1) {
+				counter++;
+				
+			} else {
+				counter = 0;
+			}
+			max = Math.max(max, counter);
+		}
+		
+		System.out.println("Maximum consecutive one is " + max);
+	}
+
+	private static void findMissingNumber(int[] arr) {
+		arr = new int[]{1,2,3,4,6,7,8,9};
+		System.out.println("\n Find missing number");
+		Arrays.stream(arr).forEach(ele -> System.out.print(ele+" "));
+		
+		bruteforceFindMissingNumber(arr);
+		
+		betterFindMissingNumber(arr);
+		
+		optimalFindMissingNumber(arr);
+		
+		moreOptimalFindMissingNumber(arr);
+		
+	}
+
+	private static void moreOptimalFindMissingNumber(int[] arr) {
+		int n = arr.length+1;
+		int xor1 = 0, xor2 = 0;
+
+		for(int i=1;i <=n; i++) {
+			xor1 ^= i;
+		}
+		
+		for(int ele : arr) {
+			xor1 ^= ele;
+		}
+		
+		System.out.println("Missing number is........  "+ xor1);
+		xor1 = 0;
+        for (int i = 0; i < n - 1; i++) {
+            xor2 = xor2 ^ arr[i]; // XOR of array elements
+            xor1 = xor1 ^ (i + 1); //XOR up to [1...N-1]
+        }
+         xor1 = xor1 ^ n; //XOR up to [1...N]
+
+        System.out.println("More Optimal solution ==> Missing number is "+(xor1 ^ xor2)); // the missing number
+		
+	}
+
+	private static void optimalFindMissingNumber(int[] arr) {
+		int n = arr.length;
+		int result = 0;
+		for(int i =0 ; i<=n-1; i++) {
+			result = result + arr[i];
+		}
+		
+		int expectResult = (arr[n-1] * (arr[n-1]+1))/2;
+		
+		int missingNumber = expectResult -result;
+		
+		System.out.println("Optmial solution ==> Missing number is "+missingNumber);
+		
+		
+	}
+
+	private static void betterFindMissingNumber(int[] arr) {
+		int hash[] = new int[arr.length + 1]; //hash array
+
+        // storing the frequencies:
+        for (int i = 0; i < arr.length - 1; i++) {
+        	hash[arr[i]]++;
+        	System.out.println(hash[arr[i]]);
+        }
+        
+        for(int i =1 ; i < arr.length-1; i++) {
+        	if(hash[i] == 0)
+        		System.out.println("Better solution => Missing number is "+ i);
+        }
+            
+        
+	}
+
+	private static void bruteforceFindMissingNumber(int[] arr) {
+		for(int i =0; i < arr.length; i++) {
+			int flag = 0; 
+			for(int j=0; j < arr.length-1; j++) {
+				if(arr[j] == i) {
+					flag = 1;
+					break;
+				}
+			}
+			if(flag == 0) {
+				System.out.println("Bruteforce ==> Missing number is " + i);
+			}
+		}
+		
+	}
+
+	private static void intersectionSortedArray(int[] arr1, int[] arr2) {
+		
+		bruteforceIntersectionSortedArray(arr1,arr2); // n1*n2 time complexity
+		
+		optmialIntersectionSortedArray(arr1,arr2);
+		
+		
+	}
+
+	private static void optmialIntersectionSortedArray(int[] arr1, int[] arr2) {
+		System.out.println("\n Intersection of array1 and array2 optimal");
+		Arrays.stream(arr1).forEach(ele -> System.out.print(ele+" "));
+		System.out.println();
+		Arrays.stream(arr2).forEach(ele -> System.out.print(ele+" "));
+		Vector<Integer> intersection = new Vector<Integer>();
+		
+		
+		int n1 = arr1.length;
+		int n2 = arr2.length;
+		
+		int i = 0;
+		int j = 0;
+		
+		
+		while(i<n1 && j < n2) {
+			if(arr1[i] < arr2[j]) {
+				i++;
+			} else if(arr1[i] > arr2[j]) {
+				j++;
+			} else {
+				intersection.add(arr1[i]);
+				i++;
+				j++;
+			}
+		}
+		
+		
+		
+		System.out.println();
+		intersection.stream().forEach(ele -> System.out.print(ele+" "));
+	}
+
+	private static void bruteforceIntersectionSortedArray(int[] arr1, int[] arr2) {
+		System.out.println("\n Unnion of array1 and array2 ");
+		Arrays.stream(arr1).forEach(ele -> System.out.print(ele+" "));
+		System.out.println();
+		Arrays.stream(arr2).forEach(ele -> System.out.print(ele+" "));
+		
+		int n1 = arr1.length;
+		int n2 = arr2.length;
+		
+		int i = 0;
+		int j = 0;
+		int vis[] = new int[n2];
+		Vector<Integer> intersection = new Vector<Integer>();
+		for(i = 0; i< n1; i++) {
+			for(j =0; j< n2;j++) {
+				if(arr1[i] == arr2[j] && vis[j] == 0) {
+					intersection.add(arr1[i]);
+					vis[j] = 1;
+					break;
+				}
+				
+				if(arr2[j]>arr1[i]) break;
+			}
+		}
+		
+		System.out.println();
+		intersection.stream().forEach(ele -> System.out.print(ele+" "));
+		
+	}
+
+	private static void unionSortedArray(int[] arr1, int[] arr2) {
+		System.out.println("\n Unnion of array1 and array2 ");
+		Arrays.stream(arr1).forEach(ele -> System.out.print(ele+" "));
+		System.out.println();
+		Arrays.stream(arr2).forEach(ele -> System.out.print(ele+" "));
+		
+		int n1 = arr1.length;
+		int n2 = arr2.length;
+		
+		int i =0;
+		int j=0;
+		
+		Vector<Integer> unionarr = new Vector<Integer>();
+		while(i<n1 && j < n2) {
+			if(arr1[i] <= arr2[j]) {
+				if(unionarr.size() == 0 || unionarr.lastElement() != arr1[i]) {
+					unionarr.add(arr1[i]);
+				}
+				i++;
+			} else {
+				if(unionarr.size() == 0 || unionarr.lastElement() != arr2[j]) {
+					unionarr.add(arr2[j]);
+				}
+				j++;
+			}
+			
+		}
+		
+		while(i < n1) {
+			if(unionarr.size() == 0 || unionarr.lastElement() != arr1[i]) {
+				unionarr.add(arr1[i]);
+			}
+			i++;
+		}
+		
+		while(j < n2) {
+			if(unionarr.size() == 0 || unionarr.lastElement() != arr2[j]) {
+				unionarr.add(arr2[j]);
+			}
+			j++;
+		}
+		System.out.println();
+		unionarr.stream().forEach(ele -> System.out.print(ele+" "));
 		
 	}
 
