@@ -30,6 +30,13 @@ public class ArrayEasyProblems {
 		findMissingNumber(DSAUtil.generateRandomeSortedArray(5));
 		findMaximumConsecutive1();
 		findNumberAppearOnce();
+		findLongestSubarrayWithSum(arr, 13);
+		
+		
+	}
+
+	private static void findLongestSubarrayWithSum(int[] arr, int i) {
+		
 		
 	}
 
