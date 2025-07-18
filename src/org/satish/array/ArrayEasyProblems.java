@@ -30,13 +30,101 @@ public class ArrayEasyProblems {
 		findMissingNumber(DSAUtil.generateRandomeSortedArray(5));
 		findMaximumConsecutive1();
 		findNumberAppearOnce();
-		findLongestSubarrayWithSum(arr, 13);
+		findLongestSubarrayWithSum();
 		
 		
 	}
 
-	private static void findLongestSubarrayWithSum(int[] arr, int i) {
+	private static void findLongestSubarrayWithSum() {
+		bruteforceFindLongestSubarrayWithSum();
 		
+		betterFindLongestSubarrayWithSum();
+		
+		optimalFindLongestSubarrayWithSum();
+	}
+
+	private static void optimalFindLongestSubarrayWithSum() {
+		int arr[] = {1, 2, 3, 2, 1,1,1,1,4,1,3,3};
+		int targetSum  = 6;
+		
+		int sum =0;
+		int length = 0;
+		int i =0, j=0;
+		while (j<arr.length) {
+			
+			while(targetSum < sum && i<=j) {
+				sum = sum - arr[i];
+				i++;
+			}
+			
+			sum += arr[j];
+			j++;
+			
+			if(targetSum == sum) {
+				int len = j-i;
+				length = Math.max(length, len);
+			}
+			
+		}
+		System.out.println("\nOptimal approach ==> Max subarray "+ length);
+		
+	}
+
+	private static void betterFindLongestSubarrayWithSum() {
+		int arr[] = {1, 2, 3, 2,1,1,1,1,4,1,3,3};
+		int targetSum  = 6;
+		int sum =0;
+		int length =0 ;
+		Map<Integer, Integer> preSum = new HashMap<Integer, Integer>();
+		
+		for(int i=0; i< arr.length;i++) {
+			
+			sum += arr[i];
+			
+			if(sum == targetSum) {
+				length = Math.max(length, i+1); 
+			}
+			
+			int rem = sum - targetSum;
+			
+			if(preSum.containsKey(rem)) {
+				length = Math.max(length, (i - preSum.get(rem)));
+			}
+			
+			//if(!preSum.containsKey(sum))
+				preSum.put(sum , i);
+			
+			
+		}
+		System.out.println("\nBetter approach ==> Max subarray "+ length);
+		
+		
+	}
+
+	private static void bruteforceFindLongestSubarrayWithSum() {
+		int arr[] = {2, 3, 5, 1, 9};
+        long sum = 10;
+        System.out.println("\n Find longest sub array of sum "+ sum);
+		Arrays.stream(arr).forEach(ele -> System.out.print(ele+" "));
+		int length =0;
+		for(int i = 0; i<arr.length; i++) {
+			int sumR =0;
+			for(int j = i; j < arr.length; j++) {
+				
+				sumR +=arr[j];
+				/*
+				for(int k = 0; k <= j ; k++) {
+					sumR +=arr[k];
+				}*/
+				
+				if(sumR == sum) {
+					length = Math.max(length, j-i+1);
+				}
+				
+			}
+		}
+		
+		System.out.println("\nMax subarray "+ length);
 		
 	}
 
