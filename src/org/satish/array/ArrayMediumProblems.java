@@ -13,8 +13,98 @@ public class ArrayMediumProblems {
 		int sortedArr[] = DSAUtil.generateRandomeSortedArray(10);
 		checkPairIndexWithGivenSum(arr, 14);
 		
+		checkPairIndexWithGivenSum(sortedArr, 14);
+		
+		majorityElement(arr);
+		
+		
+		
 		
 	}
+	
+	
+
+	private static void majorityElement(int[] arr) {
+		arr = new int[]{1, 2, 3, 2, 2, 2, 5};
+		
+		System.out.println("\n Check majority element in array ");
+		Arrays.stream(arr).forEach(ele -> System.out.print(ele+" "));
+		
+		bruteForceMajorityElement(arr);
+		
+		betterMajorityElement(arr);
+		
+		optimalMajorityElement(arr);
+		
+	}
+
+
+
+	private static void optimalMajorityElement(int[] arr) {
+		System.out.println("\n Optimal approach number pair in array ");
+		Arrays.stream(arr).forEach(ele -> System.out.print(ele+" "));
+		int count = 0;
+		int ele=0;
+		for(int i = 0; i < arr.length; i++) {
+			
+			if(count == 0) {
+				ele = arr[i];
+				count = 1;
+			} else if(arr[i] == ele) {
+				count++;
+			} else {
+				count--;
+			}
+				
+			
+			if(count > 1) {
+				System.out.println("Optimal approach ==> Number is :  "+ele);
+				break;
+			}
+		}
+	}
+
+
+
+	private static void betterMajorityElement(int[] arr) {
+		System.out.println("\n Better approach number pair in array ");
+		Arrays.stream(arr).forEach(ele -> System.out.print(ele+" "));
+		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+		
+		for(int ele : arr) {
+			map.put(ele, map.getOrDefault(ele, 0)+1);
+		}
+		
+		for(Map.Entry<Integer, Integer> entry : map.entrySet()) {
+			if(entry.getValue() > arr.length/2) {
+				System.out.println("Better approach ==> Number is :  "+entry.getKey());
+				break;
+			}
+		}	
+	}
+
+
+
+	private static void bruteForceMajorityElement(int[] arr) {
+		System.out.println("\n Brute force approach number pair in array ");
+		Arrays.stream(arr).forEach(ele -> System.out.print(ele+" "));
+		int count = 1;
+		int major = arr.length/2;
+		for(int i = 1; i < arr.length; i++) {
+			for(int j = i+1; j < arr.length; j++) {
+				if(arr[i] == arr[j]) {
+					count++;
+				}
+			}
+			if(count >= major) {
+				System.out.println("Better approach ==> Number is :  "+arr[i]);
+				break;
+			}
+			count = 1;
+		}
+	}
+
+
 
 	private static void checkPairIndexWithGivenSum(int[] arr, int sum) {
 		bruteforceCheckPairIndexWithGivenSum(arr, sum);
@@ -44,6 +134,8 @@ public class ArrayMediumProblems {
 		}
 		
 	}
+	
+	
 
 	private static void betterCheckPairIndexWithGivenSum(int[] arr, int sum) {
 		// Use hashing approach
