@@ -25,7 +25,7 @@ public class ArrayMediumProblems {
 	
 
 	private static void majorityElement(int[] arr) {
-		arr = new int[]{1, 2, 3, 2, 2, 2, 5};
+		arr = new int[]{1, 2, 3, 2, 2, 2, 5,6,8,8,8,8,8,8,8,8};
 		
 		System.out.println("\n Check majority element in array ");
 		Arrays.stream(arr).forEach(ele -> System.out.print(ele+" "));
@@ -55,12 +55,17 @@ public class ArrayMediumProblems {
 			} else {
 				count--;
 			}
-				
-			
-			if(count > 1) {
-				System.out.println("Optimal approach ==> Number is :  "+ele);
-				break;
+		}
+		int counter = 0;
+		for(int i = 0; i < arr.length; i++) {
+			if(arr[i] == ele) {
+				counter++;
 			}
+		}
+		
+		if(count >= arr.length/2) {
+			System.out.println("Optimal approach ==> Number is :  "+ele);
+		
 		}
 	}
 
@@ -76,7 +81,7 @@ public class ArrayMediumProblems {
 		}
 		
 		for(Map.Entry<Integer, Integer> entry : map.entrySet()) {
-			if(entry.getValue() > arr.length/2) {
+			if(entry.getValue() >= arr.length/2) {
 				System.out.println("Better approach ==> Number is :  "+entry.getKey());
 				break;
 			}
