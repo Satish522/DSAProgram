@@ -3,6 +3,7 @@ package org.satish.array;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import org.satish.array.util.DSAUtil;
 
@@ -15,6 +16,8 @@ public class ArrayMediumProblems {
 		
 		checkPairIndexWithGivenSum(sortedArr, 14);
 		
+		sortArrayOf0s1s2s();
+		
 		majorityElement(arr);
 		
 		
@@ -23,6 +26,79 @@ public class ArrayMediumProblems {
 	}
 	
 	
+
+	private static void sortArrayOf0s1s2s() {
+		int arr[] = {1, 0, 2, 0, 0, 2, 1, 1, 2, 0, 1, 2, 0, 1, 0, 1, 2, 0, 2, 1, 2, 0, 1, 0, 2, 1, 0, 2, 0, 1, 0};
+		betterSortArrayOf0s1s2s(arr);
+		
+		optimalSortArrayOf0s1s2s(arr); // Duetch national flag algorithm
+	}
+
+
+
+	private static void optimalSortArrayOf0s1s2s(int[] arr) {
+		
+		System.out.println("\n Sort an array of 0s, 1s and 2s element in array ");
+		Arrays.stream(arr).forEach(ele -> System.out.print(ele+" "));
+		
+		int low = 0, mid = 0, high = arr.length-1;
+		
+		while(mid <= high) {
+			if(arr[mid] == 0) {
+				swap(arr, low, mid);
+				low++;
+				mid++;
+			} else if(arr[mid] == 1) {
+				mid++;
+			} else {
+				swap(arr, mid, high);
+				high--;
+			}
+		}
+		
+		System.out.println("\n Optimal Sort result is ");
+		Arrays.stream(arr).forEach(ele -> System.out.print(ele+" "));
+	}
+
+
+
+	private static void swap(int[] arr, int low, int mid) {
+		
+		int temp = arr[low];
+		arr[low] = arr[mid];
+		arr[mid] = temp;
+		
+	}
+
+
+
+	private static void betterSortArrayOf0s1s2s(int[] arr) {
+		
+		System.out.println("\n Sort an array of 0s, 1s and 2s element in array ");
+		Arrays.stream(arr).forEach(ele -> System.out.print(ele+" "));
+		
+		int count0=0, count1=0, count2=0;
+		
+		for(int ele : arr) {
+			if(ele == 0) {
+				count0++;
+			} else if(ele == 1) {
+				count1++;
+			} else {
+				count2++;
+			}
+		}
+		
+		for(int i = 0; i < count0; i++) arr[i] = 0;
+		for(int i = count0; i < count0+count1; i++) arr[i] = 1;
+		for(int i = count0+count1; i < count0+count1+count2; i++) arr[i] = 2;
+		
+		System.out.println("\n Sort result is ");
+		Arrays.stream(arr).forEach(ele -> System.out.print(ele+" "));
+		
+	}
+
+
 
 	private static void majorityElement(int[] arr) {
 		arr = new int[]{1, 2, 3, 2, 2, 2, 5,6,8,8,8,8,8,8,8,8};
@@ -34,7 +110,7 @@ public class ArrayMediumProblems {
 		
 		betterMajorityElement(arr);
 		
-		optimalMajorityElement(arr);
+		optimalMajorityElement(arr); // Moories voting algorithm
 		
 	}
 
