@@ -13,6 +13,14 @@ public class DSAUtil {
 		return arr;
 	}
 	
+	public static int[] generateRandomeArrayNegPositive(int size) {
+		int arr[] = new int[size];
+		for(int i=0; i<size-1;i++) {
+			arr[i] = new Random().nextInt(-size,size);
+		}
+		return arr;
+	}
+	
 	public static int[] generateRandomeSortedArray(int size) {
 		int arr[] = new int[size];
 		for(int i=0; i<size-1;i++) {

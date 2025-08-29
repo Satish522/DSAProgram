@@ -1,7 +1,9 @@
 package org.satish.array;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -11,6 +13,7 @@ public class ArrayMediumProblems {
 
 	public static void main(String[] args) {
 		int arr[] = DSAUtil.generateRandomeArray(10);
+		int arr1[] = DSAUtil.generateRandomeArrayNegPositive(10);
 		int sortedArr[] = DSAUtil.generateRandomeSortedArray(10);
 		checkPairIndexWithGivenSum(arr, 14);
 		
@@ -20,12 +23,238 @@ public class ArrayMediumProblems {
 		
 		majorityElement(arr);
 		
+		giveMaximumSubarraySum(arr1);
 		
+		buySellStock(arr);
 		
-		
+		rearrangeAlternateSamePosNeg(arr1);
+		rearrangeAlternatePosNeg(arr1);
 	}
 	
 	
+
+	private static void rearrangeAlternatePosNeg(int[] arr1) {
+		System.out.println("\nRandome positive and negative numbers");
+		arr1 = new int[]{-1, -3, 9, -7, -10, 7, -1, -2, 2, 0};
+		Arrays.stream(arr1).forEach(ele -> System.out.print(ele+" "));
+		List<Integer> pos = new ArrayList<Integer>();
+		List<Integer> neg = new ArrayList<Integer>();
+		int posIndex = 0;
+		int negIndex = 0;
+		for(int i = 0; i < arr1.length; i++) {
+			if(arr1[i]>= 0) {
+				pos.add(arr1[i]);
+			} else {
+				
+				neg.add(arr1[i]);
+			}
+		}
+		int min = Math.min(pos.size(), neg.size());
+		int max = Math.max(pos.size(), neg.size());
+		for(int i = 0; i < min; i++) {
+			arr1[i*2] = pos.get(i);
+
+			arr1[i*2+1] = neg.get(i);
+		}
+		int index = 0;
+		if(pos.size() > neg.size()) {
+			index = neg.size()*2;
+		} else if(pos.size() < neg.size()) {
+			index = pos.size()*2 ;
+		}
+		
+		for(int i = min; i < max; i++) {
+			if(pos.size() > neg.size()) {
+				
+				arr1[index++]= pos.get(i);
+			} else {
+				arr1[index++] = neg.get(i);
+			}
+		}
+		System.out.println("Veriety of Rearranged Array");
+		Arrays.stream(arr1).forEach(ele -> System.out.print(ele+" "));
+		
+	}
+
+
+
+	private static void rearrangeAlternateSamePosNeg(int[] arr1) {
+		arr1 = new int[]{-1, -3, 9, -7, 10, 7, -1, -2, 2, 0};
+		//bruteForceRearrangeAlternatePosNeg(arr1);
+		
+		optimalRearrangeAlternatePosNeg(arr1);
+				
+	}
+
+
+
+	private static void optimalRearrangeAlternatePosNeg(int[] arr1) {
+		System.out.println();
+		Arrays.stream(arr1).forEach(ele -> System.out.print(ele+" "));
+		int ans[] = new int[arr1.length];
+		int posIndex = 0;
+		int negIndex = 1;
+		for(int i = 0; i < arr1.length; i++) {
+			if(arr1[i]>= 0) {
+				ans[posIndex] = arr1[i];
+				posIndex += 2;
+			} else {
+				ans[negIndex] = arr1[i];
+				negIndex += 2;
+			}
+		}
+		System.out.println("\nOptimal Rearranged Array");
+		Arrays.stream(ans).forEach(ele -> System.out.print(ele+" "));
+		
+	}
+
+
+
+	private static void bruteForceRearrangeAlternatePosNeg(int[] arr1) {
+		Arrays.stream(arr1).forEach(ele -> System.out.print(ele+" "));
+		int pos[] = new int[arr1.length];
+		int neg[] = new int[arr1.length];
+		int posIndex = 0;
+		int negIndex = 0;
+		for(int i = 0; i < arr1.length; i++) {
+			if(arr1[i]>= 0) {
+				pos[posIndex++] = arr1[i];
+			} else {
+				neg[negIndex++] = arr1[i];
+			}
+		}
+		
+		for(int i = 0; i < arr1.length/2; i++) {
+			arr1[i*2] = pos[i];
+			arr1[i*2+1] = neg[i];
+		}
+		System.out.println("Bruteforce Rearranged Array");
+		Arrays.stream(arr1).forEach(ele -> System.out.print(ele+" "));
+
+		
+	}
+
+
+
+	private static void buySellStock(int[] arr) {
+		arr = DSAUtil.generateRandomeArray(10);
+		//Arrays.stream(arr).forEach(ele -> System.out.print(ele+" "));
+		
+		bruteforceBuySellStock(arr);
+		
+		optimalBuySellStock(arr);
+		
+	}
+
+
+
+	private static void optimalBuySellStock(int[] arr) {
+		Arrays.stream(arr).forEach(ele -> System.out.print(ele+" "));
+		int maxProfit = 0;
+		int minPrice = Integer.MAX_VALUE;
+		
+		for(int i = 0; i < arr.length; i++) {
+			minPrice =Math.min(minPrice, arr[i]);
+			maxProfit = Math.max(maxProfit, arr[i] - minPrice);
+		}
+		
+		System.out.println("Optimal Maximum Profit "+ maxProfit);
+		
+	}
+
+
+
+	private static void bruteforceBuySellStock(int[] arr) {
+		Arrays.stream(arr).forEach(ele -> System.out.print(ele+" "));
+		int maxProfit = 0;
+		for(int i = 0; i < arr.length; i++) {
+			for(int j = i+1; j < arr.length; j++) {
+				if(arr[i] < arr[j])
+					maxProfit = Math.max(maxProfit, arr[j]-arr[i]);
+			}
+		}
+		
+		System.out.println("Bruteforce Maximum Profit "+ maxProfit);
+		
+	}
+
+
+
+	private static void giveMaximumSubarraySum(int[] arr) {
+		
+		
+		Arrays.stream(arr).forEach(ele -> System.out.print(ele+" "));
+		
+		
+		//bruteforceMaximumSubarraySum(arr);
+		bruteForceMaximumSubarraySum(arr);
+		
+		betterMaximumSubarraySum(arr);
+		
+		optimalMaximumSubarraySum(arr); //Kadane's algorithm
+		
+	}
+
+
+
+	private static void optimalMaximumSubarraySum(int[] arr) {
+		
+		int maxSum = Integer.MIN_VALUE;
+		int sum = 0;
+		for(int i = 0; i < arr.length; i++) {
+			if(sum < 0) {
+				sum = 0;
+			} else {
+				sum += arr[i];
+			}
+			maxSum = Math.max(maxSum, sum);
+		}
+		
+		System.out.println("Optimal Maximum subarray sum "+ maxSum);
+	}
+
+
+
+	private static void betterMaximumSubarraySum(int[] arr) {
+		int maxSum = Integer.MIN_VALUE;
+		for(int i = 0; i < arr.length; i++) {
+			int sum = 0;
+			for(int j = i; j < arr.length; j++) {
+				
+				
+				sum += arr[j];
+				
+				maxSum = Math.max(maxSum, sum);
+				
+			}
+		}
+		if(maxSum < 0) {
+			maxSum = 0;
+		}
+		System.out.println("Better Maximum subarray sum "+ maxSum);
+		
+	}
+
+
+
+	private static void bruteForceMaximumSubarraySum(int[] arr) {
+		
+		int maxSum = Integer.MIN_VALUE;
+		for(int i = 0; i < arr.length; i++) {
+			for(int j = i; j < arr.length; j++) {
+				int sum = 0;
+				for(int k = i; k <= j; k++) {
+					sum += arr[k];
+				}
+				maxSum = Math.max(maxSum, sum);
+				
+			}
+		}
+		System.out.println("Maximum subarray sum "+ maxSum);
+		
+	}
+
+
 
 	private static void sortArrayOf0s1s2s() {
 		int arr[] = {1, 0, 2, 0, 0, 2, 1, 1, 2, 0, 1, 2, 0, 1, 0, 1, 2, 0, 2, 1, 2, 0, 1, 0, 2, 1, 0, 2, 0, 1, 0};
